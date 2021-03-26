@@ -1,9 +1,19 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var React = require('react');
-var icons = require('@material-ui/icons');
 var PropTypes = require('prop-types');
 var core = require('@material-ui/core');
+var Visibility = require('@material-ui/icons/Visibility');
+var VisibilityOff = require('@material-ui/icons/VisibilityOff');
+var PersonIcon = require('@material-ui/icons/Person');
+var LockIcon = require('@material-ui/icons/Lock');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var Visibility__default = /*#__PURE__*/_interopDefaultLegacy(Visibility);
+var VisibilityOff__default = /*#__PURE__*/_interopDefaultLegacy(VisibilityOff);
+var PersonIcon__default = /*#__PURE__*/_interopDefaultLegacy(PersonIcon);
+var LockIcon__default = /*#__PURE__*/_interopDefaultLegacy(LockIcon);
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -31,97 +41,73 @@ var __assign = function() {
     return __assign.apply(this, arguments);
 };
 
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-}
-
-FileUploader.propTypes = {
+LoginForm.propTypes = {
     borderWidth: PropTypes.number,
-    maxCount: PropTypes.number,
-    minCount: PropTypes.number,
     title: PropTypes.string,
-    chooseText: PropTypes.string,
-    deleteIcon: PropTypes.element,
     className: PropTypes.any,
-    emptyGuideText: PropTypes.string,
-    disabled: PropTypes.bool,
-    showFooter: PropTypes.bool,
-    onUpload: PropTypes.func
+    forgetPasswordLabel: PropTypes.string,
+    forgetPasswordUrl: PropTypes.string,
+    loginButtonLabel: PropTypes.string,
+    signupButtonLabel: PropTypes.string,
+    signupUrl: PropTypes.string,
+    onClickLogin: PropTypes.func,
+    showSignUp: PropTypes.bool,
+    showForgetPassword: PropTypes.bool,
+    showTitle: PropTypes.bool,
 };
-FileUploader.defaultProps = {
+LoginForm.defaultProps = {
     borderWidth: 1,
-    maxCount: 10,
-    minCount: 0,
     title: "Title",
-    chooseText: "Choose",
-    deleteIcon: React.createElement(icons.DeleteForever, null),
     className: "",
-    emptyGuideText: "List is empty!",
-    disabled: false,
-    showFooter: false,
-    onUpload: function (fileList, afterDone) {
-        console.log(fileList, afterDone);
-    }
+    forgetPasswordLabel: "Forget password",
+    forgetPasswordUrl: "/ForgetPassword",
+    loginButtonLabel: "Login",
+    signupButtonLabel: "Sign up",
+    signupUrl: "/SignUp",
+    onClickLogin: function (state) {
+        console.log(state);
+    },
+    showSignUp: true,
+    showForgetPassword: true,
+    showTitle: true,
 };
-function FileUploader(props) {
-    var refInput = React.useRef(null);
-    var _a = React.useState(false), wait = _a[0], setWait = _a[1];
-    var _b = React.useState(""), message = _b[0], setMessage = _b[1];
-    var _c = React.useState([]), list = _c[0], setList = _c[1];
-    function deleteItem(item) {
-        setList(list.filter(function (element) { return element.name !== item.name; }));
-    }
-    function chooseFile() {
-        if (refInput !== null && refInput.current !== null) {
-            // console.log(refInput.current);
-            refInput.current.click();
-        }
-    }
-    function upload() {
-        if (list.length < props.minCount) {
-            setMessage("Choose at least " + list.length.toString() + " items");
-        }
-        else {
-            setWait(true);
-            setMessage("");
-            props.onUpload(list, function (_message) {
-                setWait(false);
-                setMessage(_message);
-            });
-        }
-    }
+function LoginForm(props) {
+    var _a = React.useState({
+        username: "",
+        password: "",
+        showPassword: false,
+    }), state = _a[0], setState = _a[1];
+    var handleChange = function (prop) { return function (event) {
+        var _a;
+        setState(__assign(__assign({}, state), (_a = {}, _a[prop] = event.target.value, _a)));
+    }; };
+    var handleClickShowPassword = function () {
+        setState(__assign(__assign({}, state), { showPassword: !state.showPassword }));
+    };
+    var handleMouseDownPassword = function (event) {
+        event.preventDefault();
+    };
     return (React.createElement(core.Box, { border: props.borderWidth, borderColor: "divider", className: props.className },
-        React.createElement(core.Box, { bgcolor: "background.default", display: "flex", flexDirection: "row", p: 1, alignItems: "center" },
-            React.createElement(core.Box, { flexGrow: 1 },
-                React.createElement(core.Typography, null, props.title)),
-            React.createElement(core.Button, { size: "small", variant: "text", onClick: chooseFile, disabled: props.disabled || wait || props.maxCount === list.length }, props.chooseText)),
-        React.createElement("input", { ref: refInput, type: "file", hidden: true, multiple: true, onChange: function (event) {
-                console.log((event.target).files);
-                var files = (event.target).files;
-                if (files !== null) {
-                    setList(__spreadArrays(list, [files[0]]));
-                }
-            } }),
-        React.createElement(core.Box, { overflow: "auto", height: 150, borderTop: props.borderWidth, borderColor: "divider" }, list.length === 0 ?
-            React.createElement(core.Box, { p: 1, height: "100%", display: "flex", alignItems: "center", justifyContent: "center" },
-                React.createElement(core.Typography, { color: "textSecondary", align: "center" }, props.emptyGuideText))
-            :
-                React.createElement(core.List, { dense: true }, list === null || list === void 0 ? void 0 : list.map(function (file, index) { return (React.createElement(core.ListItem, { key: index, dense: true },
-                    React.createElement(core.ListItemText, { primary: file.name, primaryTypographyProps: __assign({ variant: "caption" }, wait ? { color: "textSecondary" } : { color: "textPrimary" }) }),
-                    React.createElement(core.ListItemSecondaryAction, null,
-                        React.createElement(core.IconButton, { size: "small", onClick: function () { return deleteItem(file); }, disabled: props.disabled || wait }, props.deleteIcon)))); }))),
-        props.showFooter ?
-            React.createElement(core.Box, { bgcolor: "background.default", display: "flex", alignItems: "center", p: 1, borderTop: props.borderWidth, borderColor: "divider" },
-                wait ? React.createElement(core.CircularProgress, { size: 20 }) : null,
-                React.createElement(core.Box, { flexGrow: 1 },
-                    React.createElement(core.Typography, { variant: "caption" }, message)),
-                React.createElement(core.Button, { size: "small", variant: "text", onClick: upload, disabled: props.disabled || wait, endIcon: React.createElement(core.Badge, __assign({ style: { marginLeft: 5, marginRight: 5 } }, wait ? { color: "default" } : { color: "primary" }, { badgeContent: list.length })) }, "Upload"))
-            : null));
+        props.showTitle ? React.createElement(core.Box, { bgcolor: "background.default", p: 1 },
+            React.createElement(core.Typography, { variant: "h5" }, props.title))
+            : null,
+        React.createElement(core.Box, { p: 2, borderTop: props.showTitle ? props.borderWidth : 0, borderColor: "divider" },
+            React.createElement("form", null,
+                React.createElement(core.FormControl, { fullWidth: true, disabled: props.disabled || props.wait },
+                    React.createElement(core.OutlinedInput, { placeholder: "Username", id: "standard-adornment-username", type: "email", value: state.username, onChange: handleChange('username'), startAdornment: React.createElement(core.InputAdornment, { position: "start" },
+                            React.createElement(PersonIcon__default['default'], null)) })),
+                React.createElement(core.Box, { p: 2 }),
+                React.createElement(core.FormControl, { fullWidth: true, disabled: props.disabled || props.wait },
+                    React.createElement(core.OutlinedInput, { placeholder: "Password", id: "standard-adornment-password", type: state.showPassword ? 'text' : 'password', value: state.password, onChange: handleChange('password'), startAdornment: React.createElement(core.InputAdornment, { position: "start" },
+                            React.createElement(LockIcon__default['default'], null)), endAdornment: React.createElement(core.InputAdornment, { position: "end" },
+                            React.createElement(core.IconButton, { disabled: props.disabled || props.wait, "aria-label": "toggle password visibility", onClick: handleClickShowPassword, onMouseDown: handleMouseDownPassword }, state.showPassword ? React.createElement(Visibility__default['default'], null) : React.createElement(VisibilityOff__default['default'], null))) })))),
+        React.createElement(core.Box, { m: 2 }, props.showForgetPassword ? React.createElement(core.Link, __assign({}, props.disabled || props.wait ? {} : { href: props.forgetPasswordUrl }), props.forgetPasswordLabel) : null),
+        React.createElement(core.Box, { m: 2, display: "flex", flexDirection: "row" },
+            React.createElement(core.Button, __assign({ disableElevation: true, disableFocusRipple: true, disableTouchRipple: true, disableRipple: true, size: "large", disabled: props.disabled, fullWidth: true, variant: "contained", color: "primary" }, props.wait ? {} : { onClick: function () { return props.onClickLogin({ username: state.username, password: state.password }); } }), props.wait ? React.createElement(core.CircularProgress, { color: "inherit", size: 22 }) : props.loginButtonLabel),
+            props.showSignUp ?
+                React.createElement(core.Button, { disableElevation: true, disableFocusRipple: true, disableTouchRipple: true, disableRipple: true, size: "large", disabled: props.disabled, fullWidth: true, variant: "text", color: "primary", onClick: function () { return window.location.href = "/signup"; } }, props.signupButtonLabel)
+                : null)));
 }
 
-exports.default = FileUploader;
+exports.default = LoginForm;
 //# sourceMappingURL=index.js.map

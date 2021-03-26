@@ -1,18 +1,18 @@
 # NAME
-> material file uploader
+> material login form
 
 # ABOUT
-> choose many (0 - n) file for upload and show list of selected files
+> login form according to material-ui lib
 
 # EXAMPLE
-        import FileUploader from "material_file_uploader";
+        import LoginForm from "material_login_form";
 
         return (
-            <FileUploader
-                maxCount={1}
-                showFooter={true}
-                onUpload={(list, onAnswer) => {
-                    console.log(list);
-                    setTimeout(() => onAnswer("Upload successfully!") , 2000);
-                }}/>
+            <LoginForm 
+                borderWidth={2}
+                forgetPasswordLabel="بازیابی رمز عبور"
+                loginButtonLabel="ورود"
+                signupButtonLabel="ثبت نام"
+                title="ورود کاربران"
+                />
             );

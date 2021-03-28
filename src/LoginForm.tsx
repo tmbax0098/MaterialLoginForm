@@ -89,7 +89,7 @@ function LoginForm(props: LoginFormProps) {
     return (
         <Box border={props.borderWidth} borderColor="divider" className={props.className} >
             {props.showTitle ? <Box bgcolor="background.default" p={1}>
-                <Typography variant="h5">
+                <Typography variant="h5" color="textPrimary">
                     {props.title}
                 </Typography>
             </Box>

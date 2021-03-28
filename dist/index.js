@@ -89,7 +89,7 @@ function LoginForm(props) {
     };
     return (React.createElement(core.Box, { border: props.borderWidth, borderColor: "divider", className: props.className },
         props.showTitle ? React.createElement(core.Box, { bgcolor: "background.default", p: 1 },
-            React.createElement(core.Typography, { variant: "h5" }, props.title))
+            React.createElement(core.Typography, { variant: "h5", color: "textPrimary" }, props.title))
             : null,
         React.createElement(core.Box, { p: 2, borderTop: props.showTitle ? props.borderWidth : 0, borderColor: "divider" },
             React.createElement("form", null,
